@@ -1,0 +1,51 @@
+# Image Dataset Preparation and Annotation Toolkit - Configuration
+
+# ── Input / output ────────────────────────────────────────────────────────────
+input_dir: "data/raw"           # Default source directory (override via CLI)
+output_dir: "data/processed"   # Preprocessed images written here
+reports_dir: "reports"          # All generated reports land here
+
+# ── Supported formats ─────────────────────────────────────────────────────────
+supported_extensions:
+  - .jpg
+  - .jpeg
+  - .png
+  - .bmp
+  - .tiff
+  - .tif
+  - .webp
+
+# ── Preprocessing ─────────────────────────────────────────────────────────────
+preprocessing:
+  target_width: 640
+  target_height: 640
+  mode: "letterbox"          # "letterbox" | "stretch" | "crop_center"
+  pad_color: [114, 114, 114] # RGB pad colour for letterbox
+  interpolation_upscale: "INTER_CUBIC"
+  interpolation_downscale: "INTER_AREA"
+  preserve_alpha: true
+
+# ── Dataset splitting ─────────────────────────────────────────────────────────
+splitting:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  random_seed: 42
+  stratify: true              # Use class-aware split when labels are available
+
+# ── Duplicate detection ───────────────────────────────────────────────────────
+duplicates:
+  enable_perceptual_hash: true
+  perceptual_hash_threshold: 10  # Hamming distance; lower = more strict
+
+# ── Annotation validation ─────────────────────────────────────────────────────
+annotations:
+  format: "yolo"               # "yolo" | "coco" | "pascal_voc"
+  labels_dir: "data/labels"    # YOLO / Pascal VOC label directory
+  coco_json: "data/annotations.json"
+  class_names_file: "data/classes.txt"
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"                # DEBUG | INFO | WARNING | ERROR
+  log_file: "toolkit.log"
